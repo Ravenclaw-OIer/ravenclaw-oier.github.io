@@ -46,21 +46,21 @@
   };
 </script>
 
-  <meta name="description" content="Contest Rating was changed $-25$">
+  <meta name="description" content="All problems are from Rujia Liu’s AOAPC-bac2nd books.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AtCoder Beginner Contest 153 Record">
-<meta property="og:url" content="https://ravenclaw-oier.github.io/record/atcoder/abc153/">
+<meta property="og:title" content="Beginning Algorithm Contests: Chapter 10 Record">
+<meta property="og:url" content="https://ravenclaw-oier.github.io/record/practice/rujia/ch10/">
 <meta property="og:site_name" content="Ravenclaw_OIer&#39;s blog">
-<meta property="og:description" content="Contest Rating was changed $-25$">
+<meta property="og:description" content="All problems are from Rujia Liu’s AOAPC-bac2nd books.">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-28T08:11:04.000Z">
-<meta property="article:modified_time" content="2020-01-28T09:29:28.669Z">
+<meta property="article:published_time" content="2020-01-31T16:07:41.000Z">
+<meta property="article:modified_time" content="2020-02-01T00:45:06.887Z">
 <meta property="article:author" content="Ravenclaw_OIer">
-<meta property="article:tag" content="OnlineContest">
-<meta property="article:tag" content="ABC">
+<meta property="article:tag" content="Practice">
+<meta property="article:tag" content="Rujia">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ravenclaw-oier.github.io/record/atcoder/abc153/">
+<link rel="canonical" href="https://ravenclaw-oier.github.io/record/practice/rujia/ch10/">
 
 
 <script id="page-configurations">
@@ -72,7 +72,7 @@
   };
 </script>
 
-  <title>AtCoder Beginner Contest 153 Record | Ravenclaw_OIer's blog</title>
+  <title>Beginning Algorithm Contests: Chapter 10 Record | Ravenclaw_OIer's blog</title>
   
 
 
@@ -172,7 +172,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ravenclaw-oier.github.io/record/atcoder/abc153/">
+    <link itemprop="mainEntityOfPage" href="https://ravenclaw-oier.github.io/record/practice/rujia/ch10/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -185,7 +185,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          AtCoder Beginner Contest 153 Record
+          Beginning Algorithm Contests: Chapter 10 Record
         </h1>
 
         <div class="post-meta">
@@ -196,7 +196,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-01-28 16:11:04 / Modified: 17:29:28" itemprop="dateCreated datePublished" datetime="2020-01-28T16:11:04+08:00">2020-01-28</time>
+              <time title="Created: 2020-02-01 00:07:41 / Modified: 08:45:06" itemprop="dateCreated datePublished" datetime="2020-02-01T00:07:41+08:00">2020-02-01</time>
             </span>
 
           
@@ -210,17 +210,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Contest Rating was changed $-25$</p>
+        <p>All problems are from Rujia Liu’s AOAPC-bac2nd books.</p>
 <a id="more"></a>
-<h2 id="General"><a href="#General" class="headerlink" title="General"></a>General</h2><p>This contest has revealed that I still do not understand the basics of dp thoroughly.</p>
-<p>That is, although I may be able to solve some problems, I am unable to <strong>digest its concept</strong>.</p>
-<p>I will solve AOAPC problems from now on.</p>
-<h2 id="Problem-E-Crested-Ibis-vs-Monster"><a href="#Problem-E-Crested-Ibis-vs-Monster" class="headerlink" title="Problem E.  Crested Ibis vs Monster"></a>Problem E.  Crested Ibis vs Monster</h2><p>Let $dp_i$ be the minimum cost to cut $i$ points of health from the monster.</p>
-<script type="math/tex; mode=display">dp_i=\min(dp_i, dp_{\max(i - a_j), 0} + b_j )</script><p>The answer is $dp_h$.</p>
-<h2 id="Problem-F-Silver-Fox-vs-Monster"><a href="#Problem-F-Silver-Fox-vs-Monster" class="headerlink" title="Problem F. Silver Fox vs Monster"></a>Problem F. Silver Fox vs Monster</h2><p>We may observe that in order to kill monster $i$, there must be at least $\lceil\dfrac{h_i}A\rceil$ bombs that can harm it. Optimally, we put the bomb as far as possible, so for monster $i$, we put a bomb at $x_i+2d$ to harm it.</p>
-<p>Iterate through all monsters, use a segment tree to keep the harm it has received, then binary search to find the furthest one the bomb can reach, and perform an interval add operation on the segment tree.</p>
-<p>The overall time complexity is $O(n \log n)$.  If you use sqrt decomposition then $O(n \sqrt{n})$</p>
-
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><h3 id="11582-Colossal-Fibonacci-Numbers"><a href="#11582-Colossal-Fibonacci-Numbers" class="headerlink" title="11582. Colossal Fibonacci Numbers!"></a>11582. Colossal Fibonacci Numbers!</h3><p>Take $n=5$ as an example. We define $F$ as the Fibonacci sequence after taken modulo $n$.</p>
+<p>With some brute force we get</p>
+<script type="math/tex; mode=display">F_n=1,1,2,3,0,3,3,1,4,0,4,4,3,2,0,2,2,4,1,0,1,1,2,3,\ldots</script><p>We can find that $F_{20}=F_0$(assuming that $F$ is $0$-based), $F_{21}=F_1$, and so on, thus, the sequence is periodic. Since there can be no more than $n$ different remainders, $F$ will repeat before we meet its $n^2$-th element.</p>
+<p>So we only need to calculate $F(i)$ for all $0 \le  i \le n^2$, and just calculate which place will $F(a^b)$ be in the repetetion.</p>
+<p>The overall time complexity is $O(n^2+T\log b)$. Since $T$ is very small, the time complexity is $O(n^2)$.</p>
+<h3 id="12169-Disgruntled-Judge"><a href="#12169-Disgruntled-Judge" class="headerlink" title="12169. Disgruntled Judge"></a>12169. Disgruntled Judge</h3><p>Brute force for $a$ and $b$, then calculate the whole sequence, break off when noticed it is unacceptable.</p>
+<p>The complexity is <em>supposed to</em> be $O(n^2T)$, however, the constant is so small that it can pass test cases where $n$ can be up to $10^4$ with ease.</p>
+<h3 id="10375-Choose-and-Divide"><a href="#10375-Choose-and-Divide" class="headerlink" title="10375. Choose and Divide"></a>10375. Choose and Divide</h3><p>Instead of brute-forcely keep the results, we keep it in a factorized form (similar to ABC152D). </p>
+<p>The answer is</p>
+<script type="math/tex; mode=display">\dfrac{p!s!(r-s)!}{q!r!(p-q!)}</script><p>The complexity is $O(n \log n)$ for each case, constant is pretty small.</p>
+<h3 id="10791-Minimum-Sum-LCM"><a href="#10791-Minimum-Sum-LCM" class="headerlink" title="10791. Minimum Sum LCM"></a>10791. Minimum Sum LCM</h3><p>Let $n=p_1^{\alpha_1}p_2^{\alpha_2}\cdots$, we can see that when letting each of the prime factor to be its own integer yields the minimum sum. Just beware of overflow.</p>
+<p>Complexity: $O(\sqrt n)$</p>
+<h3 id="10820-Send-a-Table"><a href="#10820-Send-a-Table" class="headerlink" title="10820. Send a Table"></a>10820. Send a Table</h3><p>Since we can derive $f(kx, ky)$ from $f(x,y)$, we only need to keep $ f(x,y)$ with $(x,y)=1$ in the table, as other $(x,y)$ can be written as $(dx_0,dy_0)$ where $d=\gcd (x,y)$.</p>
+<p>Assume that $x &lt; y$($x &gt; y$ will yield the same result), and the problem reduces to counting the number of $x$ such that $1 \le x &lt; y$ and $(x,y)=1$ for all $2 \le y \le n$, the answer is Euler totient function, $\varphi(y)$, for each $y$.</p>
+<p>So the answer in total will be</p>
+<script type="math/tex; mode=display">1+2\sum^n_{i=2} \varphi(i)</script>
     </div>
 
     
@@ -235,7 +242,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="https://ravenclaw-oier.github.io/record/atcoder/abc153/" title="AtCoder Beginner Contest 153 Record">https://ravenclaw-oier.github.io/record/atcoder/abc153/</a>
+    <a href="https://ravenclaw-oier.github.io/record/practice/rujia/ch10/" title="Beginning Algorithm Contests: Chapter 10 Record">https://ravenclaw-oier.github.io/record/practice/rujia/ch10/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-ND</a> unless stating additionally.
@@ -246,8 +253,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/OnlineContest/" rel="tag"># OnlineContest</a>
-              <a href="/tags/ABC/" rel="tag"># ABC</a>
+              <a href="/tags/Practice/" rel="tag"># Practice</a>
+              <a href="/tags/Rujia/" rel="tag"># Rujia</a>
           </div>
 
         
@@ -256,13 +263,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/record/codeforces/1294/" rel="prev" title="Codeforces Round #615 (Div. 3) Record">
-      <i class="fa fa-chevron-left"></i> Codeforces Round #615 (Div. 3) Record
+    <a href="/record/practice/rujia/ch09/" rel="prev" title="Beginning Algorithm Contests: Chapter 9 Record">
+      <i class="fa fa-chevron-left"></i> Beginning Algorithm Contests: Chapter 9 Record
     </a></div>
-      <div class="post-nav-item">
-    <a href="/record/practice/rujia/ch09/" rel="next" title="Beginning Algorithm Contests: Chapter 9 Record">
-      Beginning Algorithm Contests: Chapter 9 Record <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -322,7 +326,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#General"><span class="nav-number">1.</span> <span class="nav-text">General</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Problem-E-Crested-Ibis-vs-Monster"><span class="nav-number">2.</span> <span class="nav-text">Problem E.  Crested Ibis vs Monster</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Problem-F-Silver-Fox-vs-Monster"><span class="nav-number">3.</span> <span class="nav-text">Problem F. Silver Fox vs Monster</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Examples"><span class="nav-number">1.</span> <span class="nav-text">Examples</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#11582-Colossal-Fibonacci-Numbers"><span class="nav-number">1.1.</span> <span class="nav-text">11582. Colossal Fibonacci Numbers!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12169-Disgruntled-Judge"><span class="nav-number">1.2.</span> <span class="nav-text">12169. Disgruntled Judge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10375-Choose-and-Divide"><span class="nav-number">1.3.</span> <span class="nav-text">10375. Choose and Divide</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10791-Minimum-Sum-LCM"><span class="nav-number">1.4.</span> <span class="nav-text">10791. Minimum Sum LCM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10820-Send-a-Table"><span class="nav-number">1.5.</span> <span class="nav-text">10820. Send a Table</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
