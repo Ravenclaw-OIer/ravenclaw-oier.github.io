@@ -54,7 +54,7 @@
 <meta property="og:description" content="All problems are from Rujia Liu’s AOAPC-bac2nd books.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-01-31T16:07:41.000Z">
-<meta property="article:modified_time" content="2020-02-01T00:45:06.887Z">
+<meta property="article:modified_time" content="2020-02-05T10:22:19.921Z">
 <meta property="article:author" content="Ravenclaw_OIer">
 <meta property="article:tag" content="Practice">
 <meta property="article:tag" content="Rujia">
@@ -194,10 +194,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-02-01 00:07:41 / Modified: 08:45:06" itemprop="dateCreated datePublished" datetime="2020-02-01T00:07:41+08:00">2020-02-01</time>
+              <time title="Created: 2020-02-01 00:07:41" itemprop="dateCreated datePublished" datetime="2020-02-01T00:07:41+08:00">2020-02-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-05 18:22:19" itemprop="dateModified" datetime="2020-02-05T18:22:19+08:00">2020-02-05</time>
+              </span>
 
           
 
@@ -221,7 +227,7 @@
 <p>The complexity is <em>supposed to</em> be $O(n^2T)$, however, the constant is so small that it can pass test cases where $n$ can be up to $10^4$ with ease.</p>
 <h3 id="10375-Choose-and-Divide"><a href="#10375-Choose-and-Divide" class="headerlink" title="10375. Choose and Divide"></a>10375. Choose and Divide</h3><p>Instead of brute-forcely keep the results, we keep it in a factorized form (similar to ABC152D). </p>
 <p>The answer is</p>
-<script type="math/tex; mode=display">\dfrac{p!s!(r-s)!}{q!r!(p-q!)}</script><p>The complexity is $O(n \log n)$ for each case, constant is pretty small.</p>
+<script type="math/tex; mode=display">\dfrac{p!s!(r-s)!}{q!r!(p-q)!}</script><p>The complexity is $O(n \log n)$ for each case, constant is pretty small.</p>
 <h3 id="10791-Minimum-Sum-LCM"><a href="#10791-Minimum-Sum-LCM" class="headerlink" title="10791. Minimum Sum LCM"></a>10791. Minimum Sum LCM</h3><p>Let $n=p_1^{\alpha_1}p_2^{\alpha_2}\cdots$, we can see that when letting each of the prime factor to be its own integer yields the minimum sum. Just beware of overflow.</p>
 <p>Complexity: $O(\sqrt n)$</p>
 <h3 id="10820-Send-a-Table"><a href="#10820-Send-a-Table" class="headerlink" title="10820. Send a Table"></a>10820. Send a Table</h3><p>Since we can derive $f(kx, ky)$ from $f(x,y)$, we only need to keep $ f(x,y)$ with $(x,y)=1$ in the table, as other $(x,y)$ can be written as $(dx_0,dy_0)$ where $d=\gcd (x,y)$.</p>
