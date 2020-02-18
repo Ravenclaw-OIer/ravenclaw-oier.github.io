@@ -269,7 +269,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 21:42:35" itemprop="dateModified" datetime="2020-02-18T21:42:35+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-18 21:50:49" itemprop="dateModified" datetime="2020-02-18T21:50:49+08:00">2020-02-18</time>
               </span>
 
           
@@ -284,40 +284,14 @@
 
       
           <h2 id="UVa1439-Exclusive-Access-2"><a href="#UVa1439-Exclusive-Access-2" class="headerlink" title="UVa1439. Exclusive Access 2"></a>UVa1439. Exclusive Access 2</h2><p>Alternative problem link: <a href="http://poj.org/problem?id=3866" target="_blank" rel="noopener">POJ 3866</a>.</p>
-<p>The problem is a little bit confusing but not difficult.</p>
-<p>Let’s check the defination for <code>waiting chains</code>.</p>
-<blockquote>
-<p>Alternating wait chain of length $n$ ($n \ge 0$) is an alternating sequence of resources $R_i (0 \le i \le n + 1) $and distinct processes $c_i (0 \le i \le n)$: $R_0\to c_0\to R_1\to  c_1 \cdots R_n \to c_n \to R_{n+1}$, where process $c_i$ acquires locks for resources $R_i$ and $R_{i+1}$ in this order. Alternating wait chain is a deadlock when $R_0 = R_{n+1}$.</p>
-</blockquote>
-<p>It’s two different kinds alternating, that reminds us of <strong>chains</strong> in graph theory, which is properly defined as “a sequence of alternating vertices and edges”</p>
-<p>So we can let the resources be the vertices, and let the processes become edges, we then get a graph.</p>
-<p>The system should not dead lock, which means that the graph should not contain cycles. Apart from that, as the problem kindly reminds us, “ The order in which locks for resources P and Q are taken is important ”, which means that the graph must be directed. So we now have a DAG.</p>
-<p>The next step is to determine how can we describe the target in the DAG.</p>
-<blockquote>
-<p> Your task is to decide the order in which each process has to acquire its resource locks, so that the system never deadlocks and the maximum length of any possible alternating wait chain is minimized. </p>
-</blockquote>
-<p>We need to <strong>minimize</strong> the <strong>maximum</strong> length of wait chains.</p>
-<p>Remember that the wait chain is supposed to be a route in our graph, thus, <strong><em>we need to minimize the length of the longest path in the graph</em></strong>.</p>
-<p>How would we make the graph a DAG?</p>
-<p>Let’s think of a kind of special graph that, by its nature, is connected and does not have cycles.</p>
-<p><strong>Trees</strong> satisfy the condition.</p>
-<p>So, if we take a tree:</p>
-<p><img src="https://i.loli.net/2020/02/18/VOePCBblhgSYd57.png" alt="tree.png"></p>
-<p>we give it directions that point <strong>from the root to the leaves</strong></p>
-<p><img src="https://i.loli.net/2020/02/18/IZqjFtU8XGpbMyY.png" alt="directedTree"></p>
-<p>It is obvious that the graph is acyclic (it’s a tree after all)</p>
-<p>Now we sneak some edges into the original tree:</p>
-<p><img src="https://i.loli.net/2020/02/18/KWhQn46MgAfBHoG.png" alt="graph.png"></p>
-<p>Now, we give this graph directions to make it acyclic.</p>
-<p>Here is the cool stuff: <strong>We can just think of it as a tree and give it directions just like what we did to the tree</strong>.</p>
-<p>Which means that we have given <strong>layers</strong> to the graph. Only can we connect a directed edge from $u$ to $v$ if $u$ is shallower than $v$, i.e. the <strong>layer index</strong> of $u$ is smaller than $v$.</p>
-<p>We get a graph like this, and this is indeed the DAG we want.</p>
-<p><img src="https://i.loli.net/2020/02/18/qDyUb9n4dhlF5pt.png" alt="graphDAG.png"></p>
-<p>So now we have our tactic: <strong>We divide the vertices into some layers, so that all edges lead from one vertex $u$ to another vertex $v$ only if the layer index of $u$ is _strictly smaller_ than $v$. </strong></p>
-<p>The problem now reduces to <strong>how we can determine the number of layers</strong>.</p>
-<p>If we think of the layers as colors, the problem is reduced to determine the number of colors required to color a graph, so that no neighboring vertices share colors. </p>
-<p>This is a classic DP with bitmasks problem, solvable in time complexity $O(3^m)$, which is enough to pass the tests for this problem since that $m \le 15$.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/record/practice/rujia/ch09/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
