@@ -46,15 +46,24 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="UVa1439. Exclusive Access 2Alternative problem link: POJ 3866. The problem is a little bit confusing but not difficult. Let’s check the defination for waiting chains.  Alternating wait chain of length">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Beginning Algorithm Contests: Chapter 9 Record">
 <meta property="og:url" content="https://ravenclaw-oier.github.io/record/practice/rujia/ch09/">
 <meta property="og:site_name" content="Ravenclaw_OIer&#39;s blog">
+<meta property="og:description" content="UVa1439. Exclusive Access 2Alternative problem link: POJ 3866. The problem is a little bit confusing but not difficult. Let’s check the defination for waiting chains.  Alternating wait chain of length">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/VOePCBblhgSYd57.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/IZqjFtU8XGpbMyY.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/KWhQn46MgAfBHoG.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/qDyUb9n4dhlF5pt.png">
 <meta property="article:published_time" content="2020-01-29T14:12:19.000Z">
-<meta property="article:modified_time" content="2020-01-29T14:12:19.678Z">
+<meta property="article:modified_time" content="2020-02-18T13:42:35.964Z">
 <meta property="article:author" content="Ravenclaw_OIer">
+<meta property="article:tag" content="Practice">
+<meta property="article:tag" content="Rujia">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/18/VOePCBblhgSYd57.png">
 
 <link rel="canonical" href="https://ravenclaw-oier.github.io/record/practice/rujia/ch09/">
 
@@ -193,6 +202,13 @@
 
               <time title="Created: 2020-01-29 22:12:19" itemprop="dateCreated datePublished" datetime="2020-01-29T22:12:19+08:00">2020-01-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 21:42:35" itemprop="dateModified" datetime="2020-02-18T21:42:35+08:00">2020-02-18</time>
+              </span>
 
           
 
@@ -205,7 +221,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h2 id="UVa1439-Exclusive-Access-2"><a href="#UVa1439-Exclusive-Access-2" class="headerlink" title="UVa1439. Exclusive Access 2"></a>UVa1439. Exclusive Access 2</h2><p>Alternative problem link: <a href="http://poj.org/problem?id=3866" target="_blank" rel="noopener">POJ 3866</a>.</p>
+<p>The problem is a little bit confusing but not difficult.</p>
+<p>Let’s check the defination for <code>waiting chains</code>.</p>
+<blockquote>
+<p>Alternating wait chain of length $n$ ($n \ge 0$) is an alternating sequence of resources $R_i (0 \le i \le n + 1) $and distinct processes $c_i (0 \le i \le n)$: $R_0\to c_0\to R_1\to  c_1 \cdots R_n \to c_n \to R_{n+1}$, where process $c_i$ acquires locks for resources $R_i$ and $R_{i+1}$ in this order. Alternating wait chain is a deadlock when $R_0 = R_{n+1}$.</p>
+</blockquote>
+<p>It’s two different kinds alternating, that reminds us of <strong>chains</strong> in graph theory, which is properly defined as “a sequence of alternating vertices and edges”</p>
+<p>So we can let the resources be the vertices, and let the processes become edges, we then get a graph.</p>
+<p>The system should not dead lock, which means that the graph should not contain cycles. Apart from that, as the problem kindly reminds us, “ The order in which locks for resources P and Q are taken is important ”, which means that the graph must be directed. So we now have a DAG.</p>
+<p>The next step is to determine how can we describe the target in the DAG.</p>
+<blockquote>
+<p> Your task is to decide the order in which each process has to acquire its resource locks, so that the system never deadlocks and the maximum length of any possible alternating wait chain is minimized. </p>
+</blockquote>
+<p>We need to <strong>minimize</strong> the <strong>maximum</strong> length of wait chains.</p>
+<p>Remember that the wait chain is supposed to be a route in our graph, thus, <strong><em>we need to minimize the length of the longest path in the graph</em></strong>.</p>
+<p>How would we make the graph a DAG?</p>
+<p>Let’s think of a kind of special graph that, by its nature, is connected and does not have cycles.</p>
+<p><strong>Trees</strong> satisfy the condition.</p>
+<p>So, if we take a tree:</p>
+<p><img src="https://i.loli.net/2020/02/18/VOePCBblhgSYd57.png" alt="tree.png"></p>
+<p>we give it directions that point <strong>from the root to the leaves</strong></p>
+<p><img src="https://i.loli.net/2020/02/18/IZqjFtU8XGpbMyY.png" alt="directedTree"></p>
+<p>It is obvious that the graph is acyclic (it’s a tree after all)</p>
+<p>Now we sneak some edges into the original tree:</p>
+<p><img src="https://i.loli.net/2020/02/18/KWhQn46MgAfBHoG.png" alt="graph.png"></p>
+<p>Now, we give this graph directions to make it acyclic.</p>
+<p>Here is the cool stuff: <strong>We can just think of it as a tree and give it directions just like what we did to the tree</strong>.</p>
+<p>Which means that we have given <strong>layers</strong> to the graph. Only can we connect a directed edge from $u$ to $v$ if $u$ is shallower than $v$, i.e. the <strong>layer index</strong> of $u$ is smaller than $v$.</p>
+<p>We get a graph like this, and this is indeed the DAG we want.</p>
+<p><img src="https://i.loli.net/2020/02/18/qDyUb9n4dhlF5pt.png" alt="graphDAG.png"></p>
+<p>So now we have our tactic: <strong>We divide the vertices into some layers, so that all edges lead from one vertex $u$ to another vertex $v$ only if the layer index of $u$ is _strictly smaller_ than $v$. </strong></p>
+<p>The problem now reduces to <strong>how we can determine the number of layers</strong>.</p>
+<p>If we think of the layers as colors, the problem is reduced to determine the number of colors required to color a graph, so that no neighboring vertices share colors. </p>
+<p>This is a classic DP with bitmasks problem, solvable in time complexity $O(3^m)$, which is enough to pass the tests for this problem since that $m \le 15$.</p>
+
     </div>
 
     
@@ -230,6 +280,10 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Practice/" rel="tag"># Practice</a>
+              <a href="/tags/Rujia/" rel="tag"># Rujia</a>
+          </div>
 
         
 
@@ -303,6 +357,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UVa1439-Exclusive-Access-2"><span class="nav-number">1.</span> <span class="nav-text">UVa1439. Exclusive Access 2</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -411,6 +466,54 @@
   
 
   
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 
