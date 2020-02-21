@@ -58,7 +58,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/02/18/KWhQn46MgAfBHoG.png">
 <meta property="og:image" content="https://i.loli.net/2020/02/18/qDyUb9n4dhlF5pt.png">
 <meta property="article:published_time" content="2020-01-29T14:12:19.000Z">
-<meta property="article:modified_time" content="2020-02-21T11:44:14.907Z">
+<meta property="article:modified_time" content="2020-02-21T11:48:01.706Z">
 <meta property="article:author" content="Ravenclaw_OIer">
 <meta property="article:tag" content="Practice">
 <meta property="article:tag" content="Rujia">
@@ -207,7 +207,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-21 19:44:14" itemprop="dateModified" datetime="2020-02-21T19:44:14+08:00">2020-02-21</time>
+                <time title="Modified: 2020-02-21 19:48:01" itemprop="dateModified" datetime="2020-02-21T19:48:01+08:00">2020-02-21</time>
               </span>
 
           
@@ -258,7 +258,7 @@
 <p>If we think of the layers as colors, the problem is reduced to determine the number of colors required to color a graph, so that no neighboring vertices share colors. </p>
 <p>This is a classic DP with bitmasks problem, solvable in time complexity $O(3^m)$, which is enough to pass the tests for this problem since that $m \le 15$.</p>
 <h2 id="1228-Integer-Transmission"><a href="#1228-Integer-Transmission" class="headerlink" title="1228. Integer Transmission"></a>1228. Integer Transmission</h2><p>An important observation in this problem:</p>
-<p><strong><em>We do not care in which order the $0$s are received, nor do we care about the $1$s.</em></strong></p>
+<p><strong><em>We do not care in which order the $0$s are received, nor do we care about the $1$s.</em></strong> </p>
 <p>This observation is pretty important, because now we can simply consider where the $0$s and $1$s appear, and the efforts of finding the next $0$ or $1$ is dramatically simpler.</p>
 <p>Here is the code for finding the next zero:</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">next0</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> i + <span class="number">1</span> &lt;= zero &amp;&amp; ((j == one) || o[j] + d &gt;= z[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
