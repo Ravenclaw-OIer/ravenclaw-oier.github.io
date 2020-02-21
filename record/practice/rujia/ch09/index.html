@@ -46,19 +46,19 @@
   };
 </script>
 
-  <meta name="description" content="UVa1439. Exclusive Access 2Alternative problem link: POJ 3866.">
+  <meta name="description" content="All problems are from Rujia Liu’s AOAPC-bac2nd books. Problems HB mentioned will be marked with $\color{red}\text{red}$ 1439. Exclusive Access 2Alternative problem link: POJ 3866. $\color{red}\text{HB">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Beginning Algorithm Contests: Chapter 9 Record">
 <meta property="og:url" content="https://ravenclaw-oier.github.io/record/practice/rujia/ch09/">
 <meta property="og:site_name" content="Ravenclaw_OIer&#39;s blog">
-<meta property="og:description" content="UVa1439. Exclusive Access 2Alternative problem link: POJ 3866.">
+<meta property="og:description" content="All problems are from Rujia Liu’s AOAPC-bac2nd books. Problems HB mentioned will be marked with $\color{red}\text{red}$ 1439. Exclusive Access 2Alternative problem link: POJ 3866. $\color{red}\text{HB">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2020/02/18/VOePCBblhgSYd57.png">
 <meta property="og:image" content="https://i.loli.net/2020/02/18/IZqjFtU8XGpbMyY.png">
 <meta property="og:image" content="https://i.loli.net/2020/02/18/KWhQn46MgAfBHoG.png">
 <meta property="og:image" content="https://i.loli.net/2020/02/18/qDyUb9n4dhlF5pt.png">
 <meta property="article:published_time" content="2020-01-29T14:12:19.000Z">
-<meta property="article:modified_time" content="2020-02-18T13:50:49.716Z">
+<meta property="article:modified_time" content="2020-02-21T11:35:56.687Z">
 <meta property="article:author" content="Ravenclaw_OIer">
 <meta property="article:tag" content="Practice">
 <meta property="article:tag" content="Rujia">
@@ -207,7 +207,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 21:50:49" itemprop="dateModified" datetime="2020-02-18T21:50:49+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-21 19:35:56" itemprop="dateModified" datetime="2020-02-21T19:35:56+08:00">2020-02-21</time>
               </span>
 
           
@@ -221,8 +221,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="UVa1439-Exclusive-Access-2"><a href="#UVa1439-Exclusive-Access-2" class="headerlink" title="UVa1439. Exclusive Access 2"></a>UVa1439. Exclusive Access 2</h2><p>Alternative problem link: <a href="http://poj.org/problem?id=3866" target="_blank" rel="noopener">POJ 3866</a>.</p>
-<a id="more"></a>
+        <p>All problems are from Rujia Liu’s AOAPC-bac2nd books. Problems HB mentioned will be marked with $\color{red}\text{red}$</p>
+<h2 id="1439-Exclusive-Access-2"><a href="#1439-Exclusive-Access-2" class="headerlink" title="1439. Exclusive Access 2"></a>1439. Exclusive Access 2</h2><p>Alternative problem link: <a href="http://poj.org/problem?id=3866" target="_blank" rel="noopener">POJ 3866</a>.</p>
+<p>$\color{red}\text{HB}$</p>
 <p>The problem is a little bit confusing but not difficult.</p>
 <p>Let’s check the defination for <code>waiting chains</code>.</p>
 <blockquote>
@@ -249,13 +250,24 @@
 <p><img src="https://i.loli.net/2020/02/18/KWhQn46MgAfBHoG.png" alt="graph.png"></p>
 <p>Now, we give this graph directions to make it acyclic.</p>
 <p>Here is the cool stuff: <strong>We can just think of it as a tree and give it directions just like what we did to the tree</strong>.</p>
-<p>Which means that we have given <strong>layers</strong> to the graph. Only can we connect a directed edge from $u$ to $v$ if $u$ is shallower than $v$, i.e. the <strong>layer index</strong> of $u$ is smaller than $v$.</p>
+<p>Which means that we have given <strong>layers</strong> to the graph. Only can we connect a directed edge from vertex $u$ to vertex $v$ if $u$ is shallower than $v$, i.e. the <strong>layer index</strong> of $u$ is smaller than $v$.</p>
 <p>We get a graph like this, and this is indeed the DAG we want.</p>
 <p><img src="https://i.loli.net/2020/02/18/qDyUb9n4dhlF5pt.png" alt="graphDAG.png"></p>
 <p>So now we have our tactic: <strong>We divide the vertices into some layers, so that all edges lead from one vertex $u$ to another vertex $v$ only if the layer index of $u$ is _strictly smaller_ than $v$. </strong></p>
 <p>The problem now reduces to <strong>how we can determine the number of layers</strong>.</p>
 <p>If we think of the layers as colors, the problem is reduced to determine the number of colors required to color a graph, so that no neighboring vertices share colors. </p>
 <p>This is a classic DP with bitmasks problem, solvable in time complexity $O(3^m)$, which is enough to pass the tests for this problem since that $m \le 15$.</p>
+<h2 id="1228-Integer-Trasmission"><a href="#1228-Integer-Trasmission" class="headerlink" title="1228. Integer Trasmission"></a>1228. Integer Trasmission</h2><p>An important observation in this problem:</p>
+<p><strong><em>We do not care in which order the $0$s are received, nor do we care about the $1$s.</em></strong></p>
+<p>This observation is pretty important, because now we can simply consider where the $0$s and $1$s appear, and the efforts of finding the next $0$ or $1$ is dramatically simple.</p>
+<p>Here is the code for finding the next zero:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">next0</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> i + <span class="number">1</span> &lt;= zero &amp;&amp; ((j == one) || o[j] + d &gt;= z[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This problem contains 3 subproblems, the second and third subproblem is very trivial, you can solve it with greedy. Another subproblem requires dynamic programming.</p>
+<p>Since we have observed that the order in which the $0$ s and $1$ s are received is useless, we can think that when we take the next $1$ oe $0$ we can <em>assume</em> that we are taking the next available $0$ or $1$ right after the last one.</p>
+<p>So now we can simply let $f(i,j)$ be the number of integers that can be obtained when we have received the first $i$ zeros and the first $j$ ones of $k$. Thus </p>
+<script type="math/tex; mode=display">
+f(i+1,j)=f(i+1,j)+f(i,j),~~~~\text{If the next bit received can be 0}\\
+f(i,j+1)=f(i,j+1)+f(i,j),~~~~\text{If the next bit received can be 1}</script><p>The rest is fairly simple</p>
 
     </div>
 
@@ -358,7 +370,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UVa1439-Exclusive-Access-2"><span class="nav-number">1.</span> <span class="nav-text">UVa1439. Exclusive Access 2</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1439-Exclusive-Access-2"><span class="nav-number">1.</span> <span class="nav-text">1439. Exclusive Access 2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1228-Integer-Trasmission"><span class="nav-number">2.</span> <span class="nav-text">1228. Integer Trasmission</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -372,7 +384,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -512,11 +524,11 @@
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
     MathJax.Hub.Typeset();
   }, window.MathJax);
-</script>
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
     
 
   
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"display":null,"position":"right","width":300,"height":600,"jsonPath":"/live2dw/assets/kutori.model.json"},"mobile":{"show":true},"react":{"opacity":0.9}});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"display":null,"position":"right","width":300,"height":600,"jsonPath":"/live2dw/assets/kutori.model.json"},"mobile":{"show":true},"react":{"opacity":0.9}});</script></body>
 </html>
