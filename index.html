@@ -269,7 +269,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-21 19:48:01" itemprop="dateModified" datetime="2020-02-21T19:48:01+08:00">2020-02-21</time>
+                <time title="Modified: 2020-02-23 19:35:59" itemprop="dateModified" datetime="2020-02-23T19:35:59+08:00">2020-02-23</time>
               </span>
 
           
@@ -283,54 +283,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>All problems are from Rujia Liu’s AOAPC-bac2nd books. Problems HB mentioned will be marked with $\color{red}\text{red}$</p>
-<h2 id="1439-Exclusive-Access-2"><a href="#1439-Exclusive-Access-2" class="headerlink" title="1439. Exclusive Access 2"></a>1439. Exclusive Access 2</h2><p>Alternative problem link: <a href="http://poj.org/problem?id=3866" target="_blank" rel="noopener">POJ 3866</a>.</p>
-<p>$\color{red}\text{HB}$</p>
-<p>The problem is a little bit confusing but not difficult.</p>
-<p>Let’s check the defination for <code>waiting chains</code>.</p>
-<blockquote>
-<p>Alternating wait chain of length $n$ ($n \ge 0$) is an alternating sequence of resources $R_i (0 \le i \le n + 1) $and distinct processes $c_i (0 \le i \le n)$: $R_0\to c_0\to R_1\to  c_1 \cdots R_n \to c_n \to R_{n+1}$, where process $c_i$ acquires locks for resources $R_i$ and $R_{i+1}$ in this order. Alternating wait chain is a deadlock when $R_0 = R_{n+1}$.</p>
-</blockquote>
-<p>It’s two different kinds alternating, that reminds us of <strong>chains</strong> in graph theory, which is properly defined as “a sequence of alternating vertices and edges”</p>
-<p>So we can let the resources be the vertices, and let the processes become edges, we then get a graph.</p>
-<p>The system should not dead lock, which means that the graph should not contain cycles. Apart from that, as the problem kindly reminds us, “ The order in which locks for resources P and Q are taken is important ”, which means that the graph must be directed. So we now have a DAG.</p>
-<p>The next step is to determine how can we describe the target in the DAG.</p>
-<blockquote>
-<p> Your task is to decide the order in which each process has to acquire its resource locks, so that the system never deadlocks and the maximum length of any possible alternating wait chain is minimized. </p>
-</blockquote>
-<p>We need to <strong>minimize</strong> the <strong>maximum</strong> length of wait chains.</p>
-<p>Remember that the wait chain is supposed to be a route in our graph, thus, <strong><em>we need to minimize the length of the longest path in the graph</em></strong>.</p>
-<p>How would we make the graph a DAG?</p>
-<p>Let’s think of a kind of special graph that, by its nature, is connected and does not have cycles.</p>
-<p><strong>Trees</strong> satisfy the condition.</p>
-<p>So, if we take a tree:</p>
-<p><img src="https://i.loli.net/2020/02/18/VOePCBblhgSYd57.png" alt="tree.png"></p>
-<p>we give it directions that point <strong>from the root to the leaves</strong></p>
-<p><img src="https://i.loli.net/2020/02/18/IZqjFtU8XGpbMyY.png" alt="directedTree"></p>
-<p>It is obvious that the graph is acyclic (it’s a tree after all)</p>
-<p>Now we sneak some edges into the original tree:</p>
-<p><img src="https://i.loli.net/2020/02/18/KWhQn46MgAfBHoG.png" alt="graph.png"></p>
-<p>Now, we give this graph directions to make it acyclic.</p>
-<p>Here is the cool stuff: <strong>We can just think of it as a tree and give it directions just like what we did to the tree</strong>.</p>
-<p>Which means that we have given <strong>layers</strong> to the graph. Only can we connect a directed edge from vertex $u$ to vertex $v$ if $u$ is shallower than $v$, i.e. the <strong>layer index</strong> of $u$ is smaller than $v$.</p>
-<p>We get a graph like this, and this is indeed the DAG we want.</p>
-<p><img src="https://i.loli.net/2020/02/18/qDyUb9n4dhlF5pt.png" alt="graphDAG.png"></p>
-<p>So now we have our tactic: <strong>We divide the vertices into some layers, so that all edges lead from one vertex $u$ to another vertex $v$ only if the layer index of $u$ is _strictly smaller_ than $v$. </strong></p>
-<p>The problem now reduces to <strong>how we can determine the number of layers</strong>.</p>
-<p>If we think of the layers as colors, the problem is reduced to determine the number of colors required to color a graph, so that no neighboring vertices share colors. </p>
-<p>This is a classic DP with bitmasks problem, solvable in time complexity $O(3^m)$, which is enough to pass the tests for this problem since that $m \le 15$.</p>
-<h2 id="1228-Integer-Transmission"><a href="#1228-Integer-Transmission" class="headerlink" title="1228. Integer Transmission"></a>1228. Integer Transmission</h2><p>An important observation in this problem:</p>
-<p><strong><em>We do not care in which order the $0$s are received, nor do we care about the $1$s.</em></strong> </p>
-<p>This observation is pretty important, because now we can simply consider where the $0$s and $1$s appear, and the efforts of finding the next $0$ or $1$ is dramatically simpler.</p>
-<p>Here is the code for finding the next zero:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">next0</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> i + <span class="number">1</span> &lt;= zero &amp;&amp; ((j == one) || o[j] + d &gt;= z[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>This problem contains 3 subproblems, the second and third subproblem is very trivial, you can solve it with greedy. Another subproblem requires dynamic programming.</p>
-<p>Since we have observed that the order in which the $0$ s and $1$ s are received is useless, we can think that when we take the next $1$ or $0$ we can <em>assume</em> that we are taking the next available $0$ or $1$ right after the last one.</p>
-<p>So now we can simply let $f(i,j)$ be the number of integers that can be obtained when we have received the first $i$ zeros and the first $j$ ones of $k$. Thus </p>
-<script type="math/tex; mode=display">
-f(i+1,j)=f(i+1,j)+f(i,j),~~~~\text{If the next bit received can be 0}\\
-f(i,j+1)=f(i,j+1)+f(i,j),~~~~\text{If the next bit received can be 1}</script><p>The rest is fairly simple</p>
-
+          <p>All problems are from Rujia Liu’s AOAPC-bac2nd books. </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/record/practice/rujia/ch09/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
