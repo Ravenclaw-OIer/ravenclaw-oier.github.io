@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Helvetica:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://ravenclaw-oier.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="HLD, short for “Heavy Light Decomposition”, is an approach to data structure problems on trees. The advantages of HLD is that it enabled us to efficiently process queries regarding paths on trees.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning HLD">
+<meta property="og:url" content="https://ravenclaw-oier.github.io/learn/HLD/">
+<meta property="og:site_name" content="Ravenclaw_OIer&#39;s blog">
+<meta property="og:description" content="HLD, short for “Heavy Light Decomposition”, is an approach to data structure problems on trees. The advantages of HLD is that it enabled us to efficiently process queries regarding paths on trees.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://oi-wiki.org/graph/images/hld.png">
+<meta property="article:published_time" content="2020-07-23T02:32:03.000Z">
+<meta property="article:modified_time" content="2020-07-23T03:52:24.045Z">
+<meta property="article:author" content="Ravenclaw_OIer">
+<meta property="article:tag" content="Data Structures">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oi-wiki.org/graph/images/hld.png">
+
+<link rel="canonical" href="https://ravenclaw-oier.github.io/learn/HLD/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Learning HLD | Ravenclaw_OIer's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ravenclaw_OIer's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ravenclaw-oier.github.io/learn/HLD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ravenclaw_OIer">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ravenclaw_OIer's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Learning HLD
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-23 10:32:03 / Modified: 11:52:24" itemprop="dateCreated datePublished" datetime="2020-07-23T10:32:03+08:00">2020-07-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>HLD, short for “Heavy Light Decomposition”, is an approach to data structure problems on trees. The advantages of HLD is that it enabled us to efficiently process queries regarding paths on trees.</p>
+<a id="more"></a>
+<h2 id="How-is-HLD-Done"><a href="#How-is-HLD-Done" class="headerlink" title="How is HLD Done?"></a>How is HLD Done?</h2><p>The essence of HLD is that we dissemble the tree to some paths, so that we can go from vertex $u$ to vertex $v$ by traversing at most $\log n$ paths, by using a data structure to maintain, we can solve many problems in $O(q\log^2n)$ time. </p>
+<p>After the decomposition, it is easy to see that we can reduce the queries formed like “Maintain something on the path from $u$ to $v$” to “Maintain some segments and calculate something within a certain range on a certain path.”</p>
+<p>We define some terms as follows:</p>
+<p>The size of the subtree of $u$ is $sz(u)$.</p>
+<p>Consider the edges leading to the children of $u$, we call an edge <strong>heavy</strong> if it leads to a vertex $v$ so that</p>
+<script type="math/tex; mode=display">
+sz(v) \ge \dfrac{sz(u)}2</script><p>In implementation, we can reduce this definition to a simpler form, which will be discussed later. Also, it is obvious that their will be <em>only one edge</em> leading to the children of $u$ that is a heavy edge. Other edges are called <strong>light</strong> edges.</p>
+<p>We call a path <strong>heavy</strong> if it is solely composed of heavy edges. For simplicity, nodes that are not included in any heavy path are also regarded as heavy paths.</p>
+<p>Here is an image for clarification:</p>
+<p><img src="https://oi-wiki.org/graph/images/hld.png" alt="OI-Wiki HLD Example"></p>
+<h2 id="Implementing-HLD"><a href="#Implementing-HLD" class="headerlink" title="Implementing HLD"></a>Implementing HLD</h2><p>The process of implementing HLD includes two steps.</p>
+<p>In the first step, we work out the father, depth and heavy son of the node. Pseudo-code follows:</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+\text{DFS1}(u) \\
+\begin{array}{ll}
+1 & u.hson\gets 0 \\
+2 & u.size\gets 1 \\
+3 & \textbf{for }\text{each }u\text{'s son }v \textbf{ do}\\
+4 & \qquad v.dep \gets u.dep + 1\\
+5 & \qquad v.fa \gets u\\
+6 & \qquad \text{DFS1}(v)\\
+7 & \qquad u.size\gets u.size + v.size \\
+8 & \qquad \textbf{if }v.size> u.hson.size \textbf{ or } u.hson = 0\textbf{ then}\\
+9 & \qquad \qquad u.hson\gets v \\
+\end{array}
+\end{array}</script><p>In the second step, we work out the <em>top</em> of the heavy edge a node is in. We can also calculate its position in the array we get by running a so-called heavy edge first DFS. Pseudo-code follows</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+tot \gets 0\\
+\text{DFS2}(u,t) \\
+\begin{array}{ll}
+1 & u.top \gets t\\
+2 & tot \gets tot + 1\\
+3 & u.dfn \gets tot\\
+4 & tot.rnk \gets u\\
+5 & \textbf {if } u.hson \neq 0 \textbf{ then}\\
+6 & \qquad \text{DFS2}(u.hson, t)\\
+7 & \textbf {for } \text{each son $v$ of $u$} \textbf{ do}\\
+8 & \qquad \textbf{if } v \neq u.hson \textbf { then}\\
+9 & \qquad \qquad \text{DFS2}(v, v)
+\end{array}
+\end{array}</script><p>Example implementation:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> rep(i, n) for (int i = 0; i &lt; (int)n; i++)</span></span><br><span class="line"><span class="keyword">namespace</span> hld &#123;</span><br><span class="line">    <span class="keyword">int</span> top[N], dfn[N], fa[N], sz[N], hson[N], dep[N], rnk[N], tot;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">        sz[u] = <span class="number">1</span>;</span><br><span class="line">        rep(i, G[u].size()) <span class="keyword">if</span> (G[u][i] != fa[u]) &#123;</span><br><span class="line">            <span class="keyword">int</span> v = G[u][i];</span><br><span class="line">            dep[v] = dep[u] + <span class="number">1</span>;</span><br><span class="line">            fa[v] = u;</span><br><span class="line">            dfs1(v);</span><br><span class="line">            sz[u] += sz[v];</span><br><span class="line">            <span class="keyword">if</span> (!hson[u] || sz[hson[u]] &lt; sz[v]) hson[u] = v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">        top[u] = t;</span><br><span class="line">        tot++;</span><br><span class="line">        dfn[u] = tot;</span><br><span class="line">        rnk[tot] = u;</span><br><span class="line">        <span class="keyword">if</span> (hson[u]) dfs2(hson[u], t);</span><br><span class="line">        rep(i, G[u].size()) &#123;</span><br><span class="line">            <span class="keyword">int</span> v = G[u][i];</span><br><span class="line">            <span class="keyword">if</span> (v != hson[u] &amp;&amp; v != fa[u]) dfs2(v, v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Sample-Problems"><a href="#Sample-Problems" class="headerlink" title="Sample Problems"></a>Sample Problems</h2><h3 id="LibreOJ-2130-Package-Manager"><a href="#LibreOJ-2130-Package-Manager" class="headerlink" title="LibreOJ 2130. Package Manager"></a>LibreOJ 2130. Package Manager</h3><p>We can simply run an HLD while maintaining two extra arrays $in_u$ and $out_u$, respectively marking the first and last occurrence of $u$  in the array we get while running DFS. Thus, the <code>uninstall</code> operation is simply done by clearing a segment $[in_u, out_u]$ on the segment tree.</p>
+<p>Example implementation:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> rep(i, n) for (int i = 0; i &lt; (int)n; i++)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> <span class="meta-keyword">elif</span> <span class="meta-keyword">else</span> <span class="meta-keyword">if</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">800020</span>;</span><br><span class="line"><span class="keyword">int</span> a[N];</span><br><span class="line"><span class="keyword">namespace</span> sgt &#123;</span><br><span class="line">    <span class="keyword">int</span> t[N], lazy[N], lc[N], rc[N];</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> ls (p &lt;&lt; 1)</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> rs (p &lt;&lt; 1 | 1)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">        lc[p] = l; rc[p] = r;</span><br><span class="line">        <span class="keyword">if</span> (l == r) &#123;t[p] = <span class="number">0</span>; <span class="keyword">return</span>;&#125;</span><br><span class="line">        <span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        build(ls, l, mid); </span><br><span class="line">        build(rs, mid + <span class="number">1</span>, r);</span><br><span class="line">        t[p] = t[ls] + t[rs];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (lazy[p] != <span class="number">-1</span>) &#123; </span><br><span class="line">            t[ls] = (rc[ls] - lc[ls] + <span class="number">1</span>) * lazy[p];</span><br><span class="line">            lazy[ls] = lazy[p];</span><br><span class="line">            t[rs] = (rc[rs] - lc[rs] + <span class="number">1</span>) * lazy[p];</span><br><span class="line">            lazy[rs] = lazy[p];</span><br><span class="line">            lazy[p] = <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l &lt;= lc[p] &amp;&amp; rc[p] &lt;= r) <span class="keyword">return</span> t[p];</span><br><span class="line">        elif (l &gt; rc[p] || r &lt; lc[p]) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> query(ls, l, r) + query(rs, l, r);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">modify</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> d)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (lazy[p] != <span class="number">-1</span>) &#123; </span><br><span class="line">            t[ls] = (rc[ls] - lc[ls] + <span class="number">1</span>) * lazy[p];</span><br><span class="line">            lazy[ls] = lazy[p];</span><br><span class="line">            t[rs] = (rc[rs] - lc[rs] + <span class="number">1</span>) * lazy[p];</span><br><span class="line">            lazy[rs] = lazy[p];</span><br><span class="line">            lazy[p] = <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l &lt;= lc[p] &amp;&amp; rc[p] &lt;= r) &#123;t[p] = d * (rc[p] - lc[p] + <span class="number">1</span>); lazy[p] = d; <span class="keyword">return</span>;&#125;</span><br><span class="line">        elif (l &gt; rc[p] || r &lt; lc[p]) <span class="keyword">return</span>;</span><br><span class="line">        modify(ls, l, r, d); modify(rs, l, r, d);</span><br><span class="line">        t[p] = t[ls] + t[rs];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> n, m;</span><br><span class="line"><span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; G[N];</span><br><span class="line"><span class="keyword">int</span> in[N], out[N];</span><br><span class="line"><span class="keyword">namespace</span> hld &#123;</span><br><span class="line">    <span class="keyword">int</span> top[N], dfn[N], fa[N], sz[N], hson[N], dep[N], rnk[N], tot;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">        sz[u] = <span class="number">1</span>;</span><br><span class="line">        rep(i, G[u].<span class="built_in">size</span>()) <span class="keyword">if</span> (G[u][i] != fa[u])&#123;</span><br><span class="line">            <span class="keyword">int</span> v = G[u][i];</span><br><span class="line">            dep[v] = dep[u] + <span class="number">1</span>;</span><br><span class="line">           <span class="comment">// fa[v] = u;</span></span><br><span class="line">            dfs1(v);</span><br><span class="line">            sz[u] += sz[v];</span><br><span class="line">            <span class="keyword">if</span> (!hson[u] || sz[hson[u]] &lt; sz[v]) hson[u] = v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">        top[u] = t;</span><br><span class="line">        tot++;</span><br><span class="line">        in[u] = tot;</span><br><span class="line">        dfn[u] = tot;</span><br><span class="line">        rnk[tot] = u;</span><br><span class="line">        <span class="keyword">if</span> (hson[u]) dfs2(hson[u], t);</span><br><span class="line">        rep(i, G[u].<span class="built_in">size</span>()) &#123;</span><br><span class="line">            <span class="keyword">int</span> v = G[u][i];</span><br><span class="line">            <span class="keyword">if</span> (v != hson[u] &amp;&amp; v != fa[u]) dfs2(v, v);</span><br><span class="line">        &#125;</span><br><span class="line">        out[u] = tot;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (top[u] != top[v]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (dep[top[u]] &lt; dep[top[v]]) swap(u, v);</span><br><span class="line">            res += sgt::query(<span class="number">1</span>, dfn[top[u]], dfn[u]); </span><br><span class="line">            u = fa[top[u]];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (dep[u] &gt; dep[v]) swap(u, v);</span><br><span class="line">        res += sgt::query(<span class="number">1</span>, dfn[u], dfn[v]);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">modify</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> d)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (top[u] != top[v]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (dep[top[u]] &lt; dep[top[v]]) swap(u, v);</span><br><span class="line">            sgt::modify(<span class="number">1</span>, dfn[top[u]], dfn[u], d);</span><br><span class="line">            u = fa[top[u]];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (dep[u] &gt; dep[v]) swap(u, v);</span><br><span class="line">        sgt::modify(<span class="number">1</span>, dfn[u], dfn[v], d);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    n = qread();</span><br><span class="line">    <span class="keyword">using</span> hld::fa;</span><br><span class="line">    range(i, <span class="number">2</span>, n) &#123;</span><br><span class="line">        fa[i] = qread(); fa[i]++;</span><br><span class="line">        G[fa[i]].pb(i); G[i].pb(fa[i]);</span><br><span class="line">	&#125;</span><br><span class="line">    hld::dep[<span class="number">1</span>] = <span class="number">1</span>; fa[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    hld::dfs1(<span class="number">1</span>); hld::dfs2(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    sgt::build(<span class="number">1</span>, <span class="number">1</span>, n);</span><br><span class="line">    m = qread();</span><br><span class="line">    <span class="keyword">char</span> op[<span class="number">12</span>];</span><br><span class="line">    <span class="keyword">while</span> (m--) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%s"</span>, op); <span class="keyword">int</span> x = qread(); x++;</span><br><span class="line">        <span class="keyword">if</span> (op[<span class="number">0</span>] == <span class="string">'i'</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> before = hld::query(<span class="number">1</span>, x);</span><br><span class="line">            hld::modify(<span class="number">1</span>, x, <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">int</span> after = hld::query(<span class="number">1</span>, x);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, after - before);    </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">int</span> before = sgt::query(<span class="number">1</span>, in[x], out[x]);</span><br><span class="line">            sgt::modify(<span class="number">1</span>, in[x], out[x], <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">int</span> after = sgt::query(<span class="number">1</span>, in[x], out[x]);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, <span class="built_in">abs</span>(before - after));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Ravenclaw_OIer
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://ravenclaw-oier.github.io/learn/HLD/" title="Learning HLD">https://ravenclaw-oier.github.io/learn/HLD/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-ND</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Data-Structures/" rel="tag"># Data Structures</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/record/practice/rujia/ch10/" rel="prev" title="Beginning Algorithm Contests: Chapter 10 Record">
+      <i class="fa fa-chevron-left"></i> Beginning Algorithm Contests: Chapter 10 Record
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#How-is-HLD-Done"><span class="nav-number">1.</span> <span class="nav-text">How is HLD Done?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implementing-HLD"><span class="nav-number">2.</span> <span class="nav-text">Implementing HLD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sample-Problems"><span class="nav-number">3.</span> <span class="nav-text">Sample Problems</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LibreOJ-2130-Package-Manager"><span class="nav-number">3.1.</span> <span class="nav-text">LibreOJ 2130. Package Manager</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ravenclaw_OIer</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-nd.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ravenclaw_OIer</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"display":null,"position":"right","width":300,"height":600,"jsonPath":"/live2dw/assets/kutori.model.json"},"mobile":{"show":true},"react":{"opacity":0.9}});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body>
+</html>
