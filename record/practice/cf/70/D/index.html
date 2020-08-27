@@ -54,7 +54,7 @@
 <meta property="og:description" content="Paraphrased Problem StatementGiven a tree $T$, you need to make, at the cost of $k$ dollars, some nodes into signal emitters. For each node, you need to pay $w_d$ dollars if the distance between it an">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-08-27T09:44:10.000Z">
-<meta property="article:modified_time" content="2020-08-27T10:01:01.136Z">
+<meta property="article:modified_time" content="2020-08-27T10:02:35.130Z">
 <meta property="article:author" content="Ravenclaw_OIer">
 <meta property="article:tag" content="practice">
 <meta name="twitter:card" content="summary">
@@ -195,7 +195,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-27 17:44:10 / Modified: 18:01:01" itemprop="dateCreated datePublished" datetime="2020-08-27T17:44:10+08:00">2020-08-27</time>
+              <time title="Created: 2020-08-27 17:44:10 / Modified: 18:02:35" itemprop="dateCreated datePublished" datetime="2020-08-27T17:44:10+08:00">2020-08-27</time>
             </span>
 
           
@@ -212,7 +212,7 @@
         <h2 id="Paraphrased-Problem-Statement"><a href="#Paraphrased-Problem-Statement" class="headerlink" title="Paraphrased Problem Statement"></a>Paraphrased Problem Statement</h2><p>Given a tree $T$, you need to make, at the cost of $k$ dollars, some nodes into signal emitters. For each node, you need to pay $w_d$ dollars if the distance between it and the nearest emitter is $d$. Minimize the total money spent.</p>
 <a id="more"></a>
 <h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>This problem is obviously a DP on trees problem.</p>
-<p>Let $f(i, u)$ denote the best solution when $u$ and its subtree get their signal from $i$. The answer is thus $\max^{n}_{j=1}f(j, i)$.</p>
+<p>Let $f(i, u)$ denote the best solution when $u$ and its subtree get their signal from $i$. </p>
 <p>For $v \in \operatorname{subtree}(u)$, there are two choices:</p>
 <ul>
 <li>Get signal from $i$, then we need to pay $f(i, v) - k$ dollars for $v$. (Update is performed after recursively solving for $v$.)</li>
